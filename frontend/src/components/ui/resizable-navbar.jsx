@@ -139,7 +139,7 @@ export const NavbarLogo = () => {
   return (
     <a href="#" className="navbar-logo">
       <img src="https://assets.aceternity.com/logo-dark.png" alt="logo" width={30} height={30} />
-      <span className="navbar-logo-text">Startup</span>
+      <span className="navbar-logo-text">Compilify</span>
     </a>
   )
 }

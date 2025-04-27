@@ -5,6 +5,7 @@
   inset-inline: 0;
   width: 100%;
   z-index: 40;
+  position: fixed;
 }
 
 /* Nav Body Styles */

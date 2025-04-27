@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import NavbarDemo from './components/Navbar/navbar'
+import Footer from './components/Footer/footer'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,7 +10,7 @@ function App() {
     <>
       <div>
         <NavbarDemo />
-        
+        <Footer />
         
       </div>
     </>

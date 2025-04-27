@@ -12,6 +12,7 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "../ui/resizable-navbar"
+import footer from "../Footer/footer"
 
 export default function NavbarDemo() {
   const navItems = [
@@ -40,7 +41,7 @@ export default function NavbarDemo() {
           <NavItems items={navItems} />
           <div className="navbar-buttons">
             <NavbarButton variant="secondary">Login</NavbarButton>
-            <NavbarButton variant="primary">Book a call</NavbarButton>
+            <NavbarButton variant="primary">SignIn</NavbarButton>
           </div>
         </NavBody>
 
@@ -73,10 +74,7 @@ export default function NavbarDemo() {
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-      <div style={{ height: "200vh" }}>
-        {/* This empty div is just to enable scrolling for demo purposes */}
-        {/* You can replace this with your own content */}
-      </div>
+
     </div>
   )
 }
