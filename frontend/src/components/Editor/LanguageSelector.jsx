@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const LanguageSelector = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('javascript');
-
-  const handleLanguageChange = (e) => {
-    setSelectedLanguage(e.target.value);
-    console.log("Selected language:", e.target.value);
+const LanguageSelector = ({ onLanguageChange }) => {
+  const handleChange = (event) => {
+    onLanguageChange(event.target.value);
   };
 
   return (
     <div>
       <select 
-        value={selectedLanguage} 
-        onChange={handleLanguageChange}
+        onChange={handleChange} 
         style={{ padding: '8px 12px', fontSize: '16px', borderRadius: '5px' }}
       >
         <option value="javascript">JavaScript</option>
@@ -23,6 +19,7 @@ const LanguageSelector = () => {
         <option value="php">PHP</option>
         <option value="go">Go</option>
         <option value="ruby">Ruby</option>
+        {/* Add other languages as necessary */}
       </select>
     </div>
   );
