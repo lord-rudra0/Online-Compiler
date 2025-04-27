@@ -3,3 +3,9 @@
     width: 100%;
     
 }
+
+.editor-container
+{
+    padding: 10px;
+    background-color: aqua;
+}
