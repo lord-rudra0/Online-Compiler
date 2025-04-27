@@ -9,11 +9,11 @@ const LanguageSelector = () => {
   };
 
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div>
       <select 
         value={selectedLanguage} 
         onChange={handleLanguageChange}
-        // style={{ padding: '8px 12px', fontSize: '16px', borderRadius: '5px' }}
+        style={{ padding: '8px 12px', fontSize: '16px', borderRadius: '5px' }}
       >
         <option value="javascript">JavaScript</option>
         <option value="python">Python</option>

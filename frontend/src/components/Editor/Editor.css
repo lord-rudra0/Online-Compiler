@@ -9,3 +9,10 @@
     padding: 10px;
     background-color: aqua;
 }
+
+.editor-top
+{
+    display: flex;
+    justify-content: space-between;
+    
+}
