@@ -1,38 +1,27 @@
-import React, { useRef } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
+import Editor from '@monaco-editor/react';
+import "./Editor.css";
 
-import { DiffEditor } from '@monaco-editor/react';
-
-function EditorBox() {
-  const diffEditorRef = useRef(null);
-
-  function handleEditorDidMount(editor, monaco) {
-    diffEditorRef.current = editor;
-  }
-
-  function showOriginalValue() {
-    alert(diffEditorRef.current.getOriginalEditor().getValue());
-  }
-
-  function showModifiedValue() {
-    alert(diffEditorRef.current.getModifiedEditor().getValue());
-  }
-
+const EditorBox = () => {
   return (
-    <>
-      <button onClick={showOriginalValue}>show original value</button>
-      <button onClick={showModifiedValue}>show modified value</button>
-      <DiffEditor
-        height="90vh"
-        className='Editor'
+    <div 
+      className="editor" 
+    //   style={{ height: '500px', backgroundColor: 'rgb(233, 61, 61)' }}
+    >
+      <Editor
+        height="500px"
+        width="500px"
         language="javascript"
-        original="// the original code"
-        modified="// the modified code"
-        onMount={handleEditorDidMount}
+        value="// Hello World"
+        theme="vs-dark"
+        options={{
+          fontSize: 16,
+          minimap: { enabled: false },
+          automaticLayout: true,
+        }}
       />
-    </>
+    </div>
   );
-}
-
+};
 
 export default EditorBox;
