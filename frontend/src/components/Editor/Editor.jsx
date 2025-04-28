@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
+import { useTheme } from '../../context/ThemeContext';
 import './Editor.css';
 
 const languages = [
@@ -86,13 +87,18 @@ func main() {
 };
 
 function EditorBox() {
+  const { theme } = useTheme();
   const defaultLanguage = languages.find(lang => lang.id === 103) || languages[0];
   const [selectedLanguage, setSelectedLanguage] = useState(defaultLanguage);
   const [code, setCode] = useState(defaultTemplates[defaultLanguage.monacoLang] || '');
   const [output, setOutput] = useState('');
   const [isRunning, setIsRunning] = useState(false);
   const [executionTime, setExecutionTime] = useState(0);
-  const [theme, setTheme] = useState('vs-light');
+  const [editorTheme, setEditorTheme] = useState('vs-light');
+
+  useEffect(() => {
+    setEditorTheme(theme === 'dark' ? 'vs-dark' : 'vs-light');
+  }, [theme]);
 
   useEffect(() => {
     if (!selectedLanguage) return;
@@ -130,14 +136,13 @@ function EditorBox() {
   };
 
   const handleClearOutput = () => setOutput('');
-  const toggleTheme = () => setTheme(theme === 'vs-light' ? 'vs-dark' : 'vs-light');
 
   if (!selectedLanguage) {
     return <div className="error-message">Error: No language selected</div>;
   }
 
   return (
-    <div className="compiler-wrapper">
+    <div className={`compiler-wrapper ${theme === 'dark' ? 'dark-mode' : ''}`}>
       <div className="compiler-container">
         <div className="editor-section">
           <div className="editor-toolbar">
@@ -155,14 +160,6 @@ function EditorBox() {
             </div>
             
             <div className="toolbar-controls">
-              <button 
-                className="theme-toggle"
-                onClick={toggleTheme}
-                title={theme === 'vs-light' ? 'Dark Mode' : 'Light Mode'}
-              >
-                {theme === 'vs-light' ? '🌙' : '☀️'}
-              </button>
-              
               <button 
                 className={`run-button ${isRunning ? 'disabled' : ''}`}
                 onClick={handleRunCode}
@@ -187,7 +184,7 @@ function EditorBox() {
               language={selectedLanguage.monacoLang}
               value={code}
               onChange={(value) => setCode(value || '')}
-              theme={theme}
+              theme={editorTheme}
               options={{
                 minimap: { enabled: false },
                 fontSize: 14,

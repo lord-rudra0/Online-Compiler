@@ -1,17 +1,20 @@
 /* Compiler.css */
 .compiler-wrapper {
-  width: calc(100% - 40px);
+  width: 100%;
   height: calc(100vh - 120px); /* Adjust based on your navbar/footer height */
-  margin: 20px auto;
-  border-radius: 8px;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
   background: #ffffff;
 }
 
 .compiler-container {
   display: flex;
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .editor-section {
@@ -19,18 +22,24 @@
   display: flex;
   flex-direction: column;
   border-right: 1px solid #e0e0e0;
+  margin: 0;
+  padding: 0;
 }
 
 .code-editor-container {
   flex: 1;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .output-section {
-  width: 35%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   background: #f8f9fa;
+  margin: 0;
+  padding: 0;
 }
 
 /* Editor Toolbar */
@@ -42,6 +51,7 @@
   background: #f1f3f4;
   border-bottom: 1px solid #e0e0e0;
   height: 50px;
+  margin: 0;
 }
 
 .language-selector-container {
@@ -155,6 +165,7 @@
   background: #f1f3f4;
   border-bottom: 1px solid #e0e0e0;
   height: 50px;
+  margin: 0;
 }
 
 .output-title {
@@ -180,6 +191,7 @@
   flex: 1;
   padding: 16px;
   overflow: auto;
+  margin: 0;
 }
 
 .output-text {

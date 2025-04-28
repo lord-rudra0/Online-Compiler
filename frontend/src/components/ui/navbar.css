@@ -279,4 +279,79 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  z-index: 100;
+}
+
+.theme-toggle-button {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.theme-toggle-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark .theme-toggle-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode Styles */
+.dark {
+  color-scheme: dark;
+}
+
+.dark .navbar {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.dark .nav-body {
+  background-color: #1a1a1a;
+}
+
+.dark .nav-items a {
+  color: #ffffff;
+}
+
+.dark .navbar-button-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.dark .navbar-button-secondary {
+  color: white;
+  border-color: white;
+}
+
+.dark .navbar-logo-text {
+  color: white;
+}
+
+/* Mobile Dark Mode */
+.dark .mobile-nav {
+  background-color: #1a1a1a;
+}
+
+.dark .mobile-nav-link {
+  color: white;
+}
+
+.dark .mobile-nav-text {
+  color: white;
+}
+
+.mobile-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 100;
 }

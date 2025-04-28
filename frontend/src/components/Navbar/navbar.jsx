@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTheme } from '../../context/ThemeContext'
 import {
   Navbar,
   NavBody,
@@ -12,9 +13,9 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "../ui/resizable-navbar"
-import footer from "../Footer/footer"
 
 export default function NavbarDemo() {
+  const { theme, toggleTheme } = useTheme();
   const navItems = [
     {
       name: "Features",
@@ -40,6 +41,13 @@ export default function NavbarDemo() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="navbar-buttons">
+            <button 
+              onClick={toggleTheme}
+              className="theme-toggle-button"
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            >
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
             <NavbarButton variant="secondary">Login</NavbarButton>
             <NavbarButton variant="primary">SignIn</NavbarButton>
           </div>
@@ -49,32 +57,27 @@ export default function NavbarDemo() {
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
-            <MobileNavToggle isOpen={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
           </MobileNavHeader>
-
           <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
-            {navItems.map((item, idx) => (
-              <a
-                key={`mobile-link-${idx}`}
-                href={item.link}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mobile-nav-link"
+            <NavItems items={navItems} />
+            <div className="mobile-nav-buttons">
+              <button 
+                onClick={toggleTheme}
+                className="theme-toggle-button"
+                title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               >
-                <span className="mobile-nav-text">{item.name}</span>
-              </a>
-            ))}
-            <div className="mobile-buttons">
-              <NavbarButton onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="mobile-button">
-                Login
-              </NavbarButton>
-              <NavbarButton onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="mobile-button">
-                Book a call
-              </NavbarButton>
+                {theme === 'light' ? '🌙' : '☀️'}
+              </button>
+              <NavbarButton variant="secondary">Login</NavbarButton>
+              <NavbarButton variant="primary">SignIn</NavbarButton>
             </div>
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-
     </div>
   )
 }
