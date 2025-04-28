@@ -89,69 +89,151 @@ func main() {
 function EditorBox() {
   const { theme: appTheme } = useTheme();
   const defaultLanguage = languages.find(lang => lang.id === 103) || languages[0];
-  const [selectedLanguage, setSelectedLanguage] = useState(defaultLanguage);
-  const [code, setCode] = useState(defaultTemplates[defaultLanguage.monacoLang] || '');
-  const [output, setOutput] = useState('');
-  const [isRunning, setIsRunning] = useState(false);
-  const [executionTime, setExecutionTime] = useState(0);
+  const [tabs, setTabs] = useState([
+    {
+      id: 1,
+      name: 'main',
+      language: defaultLanguage,
+      code: defaultTemplates[defaultLanguage.monacoLang] || '',
+      output: '',
+      isRunning: false,
+      executionTime: 0
+    }
+  ]);
+  const [activeTab, setActiveTab] = useState(1);
   const [editorTheme, setEditorTheme] = useState('vs-light');
 
   useEffect(() => {
     setEditorTheme(appTheme === 'dark' ? 'vs-dark' : 'vs-light');
   }, [appTheme]);
 
-  useEffect(() => {
-    if (!selectedLanguage) return;
-    
-    const template = defaultTemplates[selectedLanguage.monacoLang] || 
-      `// Write your ${selectedLanguage.name.split(' ')[0]} code here`;
-    setCode(template);
-    setOutput('');
-  }, [selectedLanguage]);
+  const addNewTab = () => {
+    const newTabId = Math.max(...tabs.map(tab => tab.id), 0) + 1;
+    setTabs([
+      ...tabs,
+      {
+        id: newTabId,
+        name: `tab-${newTabId}`,
+        language: defaultLanguage,
+        code: defaultTemplates[defaultLanguage.monacoLang] || '',
+        output: '',
+        isRunning: false,
+        executionTime: 0
+      }
+    ]);
+    setActiveTab(newTabId);
+  };
 
-  const handleRunCode = () => {
-    if (isRunning || !selectedLanguage) return;
+  const closeTab = (tabId, e) => {
+    e.stopPropagation();
+    if (tabs.length === 1) return;
     
-    setIsRunning(true);
-    setOutput('$ Running...\n');
-    setExecutionTime(0);
+    const newTabs = tabs.filter(tab => tab.id !== tabId);
+    setTabs(newTabs);
+    
+    if (activeTab === tabId) {
+      setActiveTab(newTabs[newTabs.length - 1].id);
+    }
+  };
+
+  const handleRunCode = (tabId) => {
+    const tab = tabs.find(t => t.id === tabId);
+    if (tab.isRunning || !tab.language) return;
+    
+    setTabs(tabs.map(t => 
+      t.id === tabId 
+        ? { ...t, isRunning: true, output: '$ Running...\n' }
+        : t
+    ));
     
     const startTime = performance.now();
     
     setTimeout(() => {
       const endTime = performance.now();
       const timeTaken = (endTime - startTime) / 1000;
-      setExecutionTime(timeTaken);
       
-      let simulatedOutput = `$ Running...\nHello, World!\n\nProgram executed successfully in ${timeTaken.toFixed(2)} seconds.\n`;
-      setOutput(simulatedOutput);
-      setIsRunning(false);
+      setTabs(tabs.map(t => 
+        t.id === tabId 
+          ? { 
+              ...t, 
+              isRunning: false,
+              executionTime: timeTaken,
+              output: `$ Running...\nHello, World!\n\nProgram executed successfully in ${timeTaken.toFixed(2)} seconds.\n`
+            }
+          : t
+      ));
     }, 1000 + Math.random() * 1000);
   };
 
-  const handleLanguageChange = (e) => {
+  const handleLanguageChange = (tabId, e) => {
     const langId = parseInt(e.target.value);
     const lang = languages.find(l => l.id === langId);
-    if (lang) setSelectedLanguage(lang);
+    if (lang) {
+      setTabs(tabs.map(t => 
+        t.id === tabId 
+          ? { 
+              ...t, 
+              language: lang,
+              code: defaultTemplates[lang.monacoLang] || `// Write your ${lang.name.split(' ')[0]} code here`
+            }
+          : t
+      ));
+    }
   };
 
-  const handleClearOutput = () => setOutput('');
+  const handleCodeChange = (tabId, value) => {
+    setTabs(tabs.map(t => 
+      t.id === tabId ? { ...t, code: value || '' } : t
+    ));
+  };
 
-  if (!selectedLanguage) {
-    return <div className="error-message">Error: No language selected</div>;
+  const handleClearOutput = (tabId) => {
+    setTabs(tabs.map(t => 
+      t.id === tabId ? { ...t, output: '' } : t
+    ));
+  };
+
+  const activeTabData = tabs.find(tab => tab.id === activeTab);
+
+  if (!activeTabData) {
+    return <div className="error-message">Error: No active tab</div>;
   }
 
   return (
     <div className={`compiler-wrapper ${appTheme === 'dark' ? 'dark-mode' : ''}`}>
       <div className="compiler-container">
         <div className="editor-section">
+          <div className="tabs-container">
+            <div className="tabs-list">
+              {tabs.map(tab => (
+                <div
+                  key={tab.id}
+                  className={`tab ${tab.id === activeTab ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span>{tab.name}</span>
+                  <button 
+                    className="close-tab"
+                    onClick={(e) => closeTab(tab.id, e)}
+                    disabled={tabs.length === 1}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+              <button className="add-tab" onClick={addNewTab}>
+                +
+              </button>
+            </div>
+          </div>
+          
           <div className="editor-toolbar">
             <div className="language-selector-container">
               <select 
                 className="language-selector"
-                value={selectedLanguage.id}
-                onChange={handleLanguageChange}
-                disabled={isRunning}
+                value={activeTabData.language.id}
+                onChange={(e) => handleLanguageChange(activeTab, e)}
+                disabled={activeTabData.isRunning}
               >
                 {languages.map((lang) => (
                   <option key={lang.id} value={lang.id}>{lang.name}</option>
@@ -161,11 +243,11 @@ function EditorBox() {
             
             <div className="toolbar-controls">
               <button 
-                className={`run-button ${isRunning ? 'disabled' : ''}`}
-                onClick={handleRunCode}
-                disabled={isRunning}
+                className={`run-button ${activeTabData.isRunning ? 'disabled' : ''}`}
+                onClick={() => handleRunCode(activeTab)}
+                disabled={activeTabData.isRunning}
               >
-                {isRunning ? (
+                {activeTabData.isRunning ? (
                   <>
                     <span className="spinner"></span> Running
                   </>
@@ -181,9 +263,9 @@ function EditorBox() {
           <div className="code-editor-container">
             <Editor
               height="100%"
-              language={selectedLanguage.monacoLang}
-              value={code}
-              onChange={(value) => setCode(value || '')}
+              language={activeTabData.language.monacoLang}
+              value={activeTabData.code}
+              onChange={(value) => handleCodeChange(activeTab, value)}
               theme={editorTheme}
               options={{
                 minimap: { enabled: false },
@@ -207,23 +289,23 @@ function EditorBox() {
           <div className="output-header">
             <div className="output-title">Output</div>
             <div className="output-controls">
-              {executionTime > 0 && (
+              {activeTabData.executionTime > 0 && (
                 <div className="execution-time">
-                  ⏱️ {executionTime.toFixed(2)}s
+                  ⏱️ {activeTabData.executionTime.toFixed(2)}s
                 </div>
               )}
               <button 
                 className="clear-button"
-                onClick={handleClearOutput}
-                disabled={!output}
+                onClick={() => handleClearOutput(activeTab)}
+                disabled={!activeTabData.output}
               >
                 🗑️ Clear
               </button>
             </div>
           </div>
           <div className="output-content">
-            <pre className={`output-text ${!output ? 'empty' : ''}`}>
-              {output || 'Output will be displayed here after execution'}
+            <pre className={`output-text ${!activeTabData.output ? 'empty' : ''}`}>
+              {activeTabData.output || 'Output will be displayed here after execution'}
             </pre>
           </div>
         </div>
