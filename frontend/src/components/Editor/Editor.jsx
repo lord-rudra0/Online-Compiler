@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
-import { useTheme } from '../../context/ThemeContext';
 import './Editor.css';
+import { useTheme } from '../../context/ThemeContext';
 
 const languages = [
   { id: 45, name: "Assembly (NASM 2.14.02)", monacoLang: "asm" },
@@ -87,7 +87,7 @@ func main() {
 };
 
 function EditorBox() {
-  const { theme } = useTheme();
+  const { theme: appTheme } = useTheme();
   const defaultLanguage = languages.find(lang => lang.id === 103) || languages[0];
   const [selectedLanguage, setSelectedLanguage] = useState(defaultLanguage);
   const [code, setCode] = useState(defaultTemplates[defaultLanguage.monacoLang] || '');
@@ -97,8 +97,8 @@ function EditorBox() {
   const [editorTheme, setEditorTheme] = useState('vs-light');
 
   useEffect(() => {
-    setEditorTheme(theme === 'dark' ? 'vs-dark' : 'vs-light');
-  }, [theme]);
+    setEditorTheme(appTheme === 'dark' ? 'vs-dark' : 'vs-light');
+  }, [appTheme]);
 
   useEffect(() => {
     if (!selectedLanguage) return;
@@ -142,7 +142,7 @@ function EditorBox() {
   }
 
   return (
-    <div className={`compiler-wrapper ${theme === 'dark' ? 'dark-mode' : ''}`}>
+    <div className={`compiler-wrapper ${appTheme === 'dark' ? 'dark-mode' : ''}`}>
       <div className="compiler-container">
         <div className="editor-section">
           <div className="editor-toolbar">

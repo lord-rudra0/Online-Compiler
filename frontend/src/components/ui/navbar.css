@@ -41,8 +41,8 @@
 
 /* Nav Items Styles */
 .nav-items {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  z-index: 90;
   display: none;
   flex: 1;
   flex-direction: row;
@@ -279,20 +279,32 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-left: auto;
+  position: relative;
   z-index: 100;
+}
+
+.mobile-nav-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .theme-toggle-button {
   background: transparent;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.5em;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.5em;
   border-radius: 50%;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   z-index: 100;
 }
 
@@ -302,56 +314,4 @@
 
 .dark .theme-toggle-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Dark Mode Styles */
-.dark {
-  color-scheme: dark;
-}
-
-.dark .navbar {
-  background-color: #1a1a1a;
-  color: #ffffff;
-}
-
-.dark .nav-body {
-  background-color: #1a1a1a;
-}
-
-.dark .nav-items a {
-  color: #ffffff;
-}
-
-.dark .navbar-button-primary {
-  background-color: #3b82f6;
-  color: white;
-}
-
-.dark .navbar-button-secondary {
-  color: white;
-  border-color: white;
-}
-
-.dark .navbar-logo-text {
-  color: white;
-}
-
-/* Mobile Dark Mode */
-.dark .mobile-nav {
-  background-color: #1a1a1a;
-}
-
-.dark .mobile-nav-link {
-  color: white;
-}
-
-.dark .mobile-nav-text {
-  color: white;
-}
-
-.mobile-nav-buttons {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  z-index: 100;
 }

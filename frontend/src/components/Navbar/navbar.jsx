@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useTheme } from '../../context/ThemeContext'
 import {
   Navbar,
   NavBody,
@@ -13,6 +12,8 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "../ui/resizable-navbar"
+import footer from "../Footer/footer"
+import { useTheme } from "../../context/ThemeContext"
 
 export default function NavbarDemo() {
   const { theme, toggleTheme } = useTheme();
@@ -42,8 +43,8 @@ export default function NavbarDemo() {
           <NavItems items={navItems} />
           <div className="navbar-buttons">
             <button 
-              onClick={toggleTheme}
               className="theme-toggle-button"
+              onClick={toggleTheme}
               title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             >
               {theme === 'light' ? '🌙' : '☀️'}
@@ -66,8 +67,8 @@ export default function NavbarDemo() {
             <NavItems items={navItems} />
             <div className="mobile-nav-buttons">
               <button 
-                onClick={toggleTheme}
                 className="theme-toggle-button"
+                onClick={toggleTheme}
                 title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               >
                 {theme === 'light' ? '🌙' : '☀️'}
