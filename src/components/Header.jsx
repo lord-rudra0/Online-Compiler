@@ -1,6 +1,6 @@
 import UserMenu from './UserMenu';
 
-const Header = ({ onRun, isLoading, selectedLanguage, user, onAuthClick, onLogout, onSettingsClick, onFileManagerClick, onSnippetsClick, onFormatterClick }) => {
+const Header = ({ onRun, isLoading, selectedLanguage, user, onAuthClick, onLogout, onSettingsClick, onFileManagerClick, onSnippetsClick, onFormatterClick, onUploadClick, onStorageClick }) => {
   return (
     <header className="app-header">
       <div className="header-content">
@@ -50,6 +50,20 @@ const Header = ({ onRun, isLoading, selectedLanguage, user, onAuthClick, onLogou
           <button className="header-action-button" onClick={onFormatterClick} title="Format Code">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z" fill="currentColor"/>
+            </svg>
+          </button>
+          
+          <button className="header-action-button" onClick={onUploadClick} title="Upload File">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 0L10.472 5.056L16 5.056L11.764 8.944L14.236 14L8 10.112L1.764 14L4.236 8.944L0 5.056L5.528 5.056L8 0Z" fill="currentColor"/>
+            </svg>
+          </button>
+          
+          <button className="header-action-button" onClick={onStorageClick} title="Storage Manager">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 2C2 1.44772 2.44772 1 3 1H6L8 3H13C13.5523 3 14 3.44772 14 4V14C14 14.5523 13.5523 15 13 15H3C2.44772 15 2 14.5523 2 14V2Z" fill="currentColor"/>
+              <path d="M4 6H12V8H4V6Z" fill="white"/>
+              <path d="M4 10H8V12H4V10Z" fill="white"/>
             </svg>
           </button>
           

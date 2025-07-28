@@ -8,6 +8,8 @@ import EditorSettings from './components/EditorSettings';
 import FileManager from './components/FileManager';
 import CodeSnippets from './components/CodeSnippets';
 import CodeFormatter from './components/CodeFormatter';
+import FileUpload from './components/FileUpload';
+import StorageManager from './components/StorageManager';
 import './App.css';
 
 const API_BASE_URL = 'http://localhost:3001/api';
@@ -51,6 +53,8 @@ function App() {
   const [fileManagerModal, setFileManagerModal] = useState(false);
   const [snippetsModal, setSnippetsModal] = useState(false);
   const [formatterModal, setFormatterModal] = useState(false);
+  const [uploadModal, setUploadModal] = useState(false);
+  const [storageModal, setStorageModal] = useState(false);
   const [editorSettings, setEditorSettings] = useState({
     theme: 'dark',
     fontSize: 14,
@@ -184,6 +188,13 @@ function App() {
     setCode(formattedCode);
   };
 
+  const handleFileUpload = (fileData) => {
+    setCode(fileData.code);
+    if (fileData.languageObject) {
+      setSelectedLanguage(fileData.languageObject);
+    }
+  };
+
   return (
     <div className="app">
       <Header 
@@ -197,6 +208,8 @@ function App() {
         onFileManagerClick={() => setFileManagerModal(true)}
         onSnippetsClick={() => setSnippetsModal(true)}
         onFormatterClick={() => setFormatterModal(true)}
+        onUploadClick={() => setUploadModal(true)}
+        onStorageClick={() => setStorageModal(true)}
       />
       
       <AuthModal
@@ -235,6 +248,18 @@ function App() {
         onFormatCode={handleFormatCode}
         currentCode={code}
         currentLanguage={selectedLanguage?.language || ''}
+      />
+      
+      <FileUpload
+        isOpen={uploadModal}
+        onClose={() => setUploadModal(false)}
+        onFileUpload={handleFileUpload}
+        supportedLanguages={languages}
+      />
+      
+      <StorageManager
+        isOpen={storageModal}
+        onClose={() => setStorageModal(false)}
       />
       
       <div className="app-content">
