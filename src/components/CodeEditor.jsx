@@ -20,6 +20,12 @@ const CodeEditor = ({ value, onChange, language, placeholder }) => {
     }
   };
 
+  const handleLineNumbersScroll = (e) => {
+    if (textareaRef.current) {
+      textareaRef.current.scrollTop = e.target.scrollTop;
+    }
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Tab') {
       e.preventDefault();
@@ -41,7 +47,7 @@ const CodeEditor = ({ value, onChange, language, placeholder }) => {
         <span className="language-badge">{language}</span>
       </div>
       <div className="editor-container">
-        <div className="line-numbers">
+        <div className="line-numbers" onScroll={handleLineNumbersScroll}>
           {Array.from({ length: lineCount }, (_, i) => (
             <div key={i + 1} className="line-number">
               {i + 1}
