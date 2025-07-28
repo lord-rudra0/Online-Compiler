@@ -6,6 +6,8 @@ import CodeEditor from './components/CodeEditor';
 import InputOutput from './components/InputOutput';
 import EditorSettings from './components/EditorSettings';
 import FileManager from './components/FileManager';
+import CodeSnippets from './components/CodeSnippets';
+import CodeFormatter from './components/CodeFormatter';
 import './App.css';
 
 const API_BASE_URL = 'http://localhost:3001/api';
@@ -47,6 +49,8 @@ function App() {
   const [authModal, setAuthModal] = useState({ isOpen: false, mode: 'login' });
   const [settingsModal, setSettingsModal] = useState(false);
   const [fileManagerModal, setFileManagerModal] = useState(false);
+  const [snippetsModal, setSnippetsModal] = useState(false);
+  const [formatterModal, setFormatterModal] = useState(false);
   const [editorSettings, setEditorSettings] = useState({
     theme: 'dark',
     fontSize: 14,
@@ -172,6 +176,14 @@ function App() {
     setEditorSettings(newSettings);
   };
 
+  const handleInsertSnippet = (snippetCode) => {
+    setCode(snippetCode);
+  };
+
+  const handleFormatCode = (formattedCode) => {
+    setCode(formattedCode);
+  };
+
   return (
     <div className="app">
       <Header 
@@ -183,6 +195,8 @@ function App() {
         onLogout={handleLogout}
         onSettingsClick={() => setSettingsModal(true)}
         onFileManagerClick={() => setFileManagerModal(true)}
+        onSnippetsClick={() => setSnippetsModal(true)}
+        onFormatterClick={() => setFormatterModal(true)}
       />
       
       <AuthModal
@@ -204,6 +218,21 @@ function App() {
         isOpen={fileManagerModal}
         onClose={() => setFileManagerModal(false)}
         onLoadFile={handleLoadFile}
+        currentCode={code}
+        currentLanguage={selectedLanguage?.language || ''}
+      />
+      
+      <CodeSnippets
+        isOpen={snippetsModal}
+        onClose={() => setSnippetsModal(false)}
+        onInsertSnippet={handleInsertSnippet}
+        currentLanguage={selectedLanguage?.language || ''}
+      />
+      
+      <CodeFormatter
+        isOpen={formatterModal}
+        onClose={() => setFormatterModal(false)}
+        onFormatCode={handleFormatCode}
         currentCode={code}
         currentLanguage={selectedLanguage?.language || ''}
       />
