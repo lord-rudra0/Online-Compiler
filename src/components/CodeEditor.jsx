@@ -157,6 +157,13 @@ const CodeEditor = ({ value, onChange, language, placeholder }) => {
     return colors[language.toLowerCase()] || '#58a6ff';
   };
 
+  const getLanguageTextColor = () => {
+    const languageKey = language.toLowerCase();
+    // Languages with dark backgrounds need white text
+    const darkBackgroundLanguages = ['javascript', 'nodejs', 'swift', 'pascal'];
+    return darkBackgroundLanguages.includes(languageKey) ? '#ffffff' : '#ffffff';
+  };
+
   return (
     <div className="code-editor">
       <div className="editor-header">
@@ -165,7 +172,14 @@ const CodeEditor = ({ value, onChange, language, placeholder }) => {
           <span className="cursor-position">
             Ln {currentLine}, Col {currentColumn}
           </span>
-          <span className="language-badge" style={{ backgroundColor: getLanguageColor() }}>
+          <span 
+            className="language-badge" 
+            style={{ 
+              backgroundColor: getLanguageColor(),
+              color: getLanguageTextColor(),
+              borderColor: getLanguageColor()
+            }}
+          >
             {language}
           </span>
         </div>
