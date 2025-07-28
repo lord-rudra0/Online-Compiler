@@ -4,6 +4,8 @@ import AuthModal from './components/AuthModal';
 import LanguageSelector from './components/LanguageSelector';
 import CodeEditor from './components/CodeEditor';
 import InputOutput from './components/InputOutput';
+import EditorSettings from './components/EditorSettings';
+import FileManager from './components/FileManager';
 import './App.css';
 
 const API_BASE_URL = 'http://localhost:3001/api';
@@ -43,6 +45,18 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [authModal, setAuthModal] = useState({ isOpen: false, mode: 'login' });
+  const [settingsModal, setSettingsModal] = useState(false);
+  const [fileManagerModal, setFileManagerModal] = useState(false);
+  const [editorSettings, setEditorSettings] = useState({
+    theme: 'dark',
+    fontSize: 14,
+    fontFamily: 'Fira Code',
+    tabSize: 2,
+    wordWrap: 'off',
+    showLineNumbers: true,
+    showCurrentLine: true,
+    autoSave: 'off'
+  });
 
   useEffect(() => {
     fetchLanguages();
@@ -146,6 +160,18 @@ function App() {
     }));
   };
 
+  const handleLoadFile = (fileCode, fileLanguage) => {
+    setCode(fileCode);
+    const lang = languages.find(l => l.language === fileLanguage);
+    if (lang) {
+      setSelectedLanguage(lang);
+    }
+  };
+
+  const handleSettingsChange = (newSettings) => {
+    setEditorSettings(newSettings);
+  };
+
   return (
     <div className="app">
       <Header 
@@ -155,6 +181,8 @@ function App() {
         user={user}
         onAuthClick={() => openAuthModal('login')}
         onLogout={handleLogout}
+        onSettingsClick={() => setSettingsModal(true)}
+        onFileManagerClick={() => setFileManagerModal(true)}
       />
       
       <AuthModal
@@ -163,6 +191,21 @@ function App() {
         onClose={closeAuthModal}
         onSwitchMode={switchAuthMode}
         onAuth={handleAuth}
+      />
+      
+      <EditorSettings
+        isOpen={settingsModal}
+        onClose={() => setSettingsModal(false)}
+        settings={editorSettings}
+        onSettingsChange={handleSettingsChange}
+      />
+      
+      <FileManager
+        isOpen={fileManagerModal}
+        onClose={() => setFileManagerModal(false)}
+        onLoadFile={handleLoadFile}
+        currentCode={code}
+        currentLanguage={selectedLanguage?.language || ''}
       />
       
       <div className="app-content">
